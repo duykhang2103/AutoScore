@@ -22,26 +22,10 @@ def build_application() -> FastAPI:
     )
 
     model, device = prepare_model_device() 
-
-    @app.get("/")
-    def read_root():
-        return {"Hello": "World"}
-
-    @app.get("/items/{item_id}")
-    def read_item(item_id: int, q: Union[str, None] = None):
-        return {"item_id": item_id, "q": q}
     
-    @app.post("/run_model/")
+    @app.post("/grade/")
     def run_model(text: Item):
         return {"result": predict(model, device, text.name)}
     return app
-# @app.get("/")
-# def read_root():
-#     return {"Hello": "World"}
-
-
-# @app.get("/items/{item_id}")
-# def read_item(item_id: int, q: Union[str, None] = None):
-#     return {"item_id": item_id, "q": q}
 
 app = build_application()
