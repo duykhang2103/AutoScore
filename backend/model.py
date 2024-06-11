@@ -5,12 +5,11 @@ import torch
 from transformers import AutoTokenizer, DataCollatorWithPadding
 from transformers import TrainingArguments, AutoModelForSequenceClassification, Trainer
 
-repository_id = "hoanghoavienvo/ptdltm-aes-2"
+repository_id = "hoanghoavienvo/htk-aes-3"
 
 def prepare_model_device():
   model = AutoModelForSequenceClassification.from_pretrained(repository_id)
   model_info = model.__dict__
-  print(model_info)
 
   model.training = False
 
