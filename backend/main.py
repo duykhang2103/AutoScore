@@ -36,12 +36,20 @@ def build_application() -> FastAPI:
         
         # res = re.sub(r'[^\w\s]', '', text.content)
         misspelleds = spell.unknown(res.split())
-        print("Misspelleds: ", misspelleds)
+        result = predict(model, device, text.content) if len(text.content) > 20 else 1
+        
         return {
-            "result": predict(model, device, text.content), 
-            "evaluation": evaluations[str(predict(model, device, text.content))], 
+            "result": result, 
+            "evaluation": evaluations[str(result)], 
             "misspelleds": misspelleds
             }
-    return app
 
+    @app.post("/correct/")
+    def correct(word: Item):
+        corrected = spell.correction(word)
+        return {
+            "corrected": corrected
+        }
+
+    return app
 app = build_application()
